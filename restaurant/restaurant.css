@@ -1,0 +1,69 @@
+#intro {
+	padding: 5px;
+}
+
+#tabheaderdiv {
+	display: block;
+}
+
+#bodydiv {
+	display: block;
+	border: 3px #EEEEEE solid;
+	border-radius: 5px;
+	clear: left;
+}
+
+.tablinkdiv {
+	display: block;
+	float: left;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border: 3px grey solid;
+	border-bottom: 0px white solid;
+	border-radius: 3px;
+	background-color: #555555;
+}
+
+.tablinkdiv a {
+	text-decoration: none;
+	color: white;
+	font-family: Verdana;
+}
+
+.tab {
+	display: inline-block;
+	padding: 30px;
+	background-color: #EEEEEE;
+}
+
+.header {
+	font-size: 28px;
+	font-family: Arial;
+	padding-bottom: 4px;
+}
+
+.tagline {
+	font-size: 14px;
+	font-family: Verdana;
+	font-style: italic;
+	padding-bottom: 4px;
+}
+
+.body {
+	font-size: 18px;
+	font-family: Garamond;	
+	padding-bottom: 20px;
+}
+
+.image {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px;
+	width: 400px;
+	height: 400px;
+}
+

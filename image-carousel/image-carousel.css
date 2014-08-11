@@ -1,0 +1,45 @@
+.arrows {
+	float: left;
+	margin: 5px;
+}
+.buttons {
+	height: 15px;
+	width: 15px;
+}
+.dots {
+	float: left;
+	border: grey 1px solid;
+	border-radius: 10px;
+	margin: 5px;
+	padding: 5px;	
+	background-color: grey;
+}
+.images {
+	border: grey 5px solid;
+	border-radius: 6px;
+	display: table-cell;
+    vertical-align: middle;
+    background-color: grey;
+}
+#header {
+	font-family: Helvetica;
+	font-size: 25px;
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#carousel {
+	margin-left: auto;
+	margin-right: auto;
+	width: 800px;	
+}
+#carousel-frame {
+	margin-left: auto;
+	margin-right: auto;
+	width: 300px;
+}
+#carousel-controls {
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+}
