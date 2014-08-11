@@ -16,11 +16,11 @@ My projects for the Code Sydney [JavaScript and JQuery study group] (http://code
 
 ## Notes ##
 
-This repository was created after week 4 to consolidate the code from existing repositories. The commit history for those repositories can be found here:
+This repository was created after week 4 to consolidate the code from existing repositories. The commit history for those repositories can be found here (the repositories below are not updated anymore):
 * [Onscreen Calculator repository] (https://github.com/drewylui/onscreen-calculator)
 * [Restaurant repository] (https://github.com/drewylui/restaurant)
 * [Snake Game repository] (https://github.com/drewylui/snake)
 * [Image Carousel repository] (https://github.com/drewylui/image-carousel)
 
-These repositories are not updated anymore. 
+
 
