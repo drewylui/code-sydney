@@ -10,9 +10,9 @@
 */
 
 var gridObj = {
-	row1 : ["","",""],
-	row2 : ["","",""],
-	row3 : ["","",""]
+	0 : ["","",""],
+	1 : ["","",""],
+	2 : ["","",""]
 }
 
 function render (grid) {
@@ -30,6 +30,14 @@ function render (grid) {
 
 }
 
+function placeXO (cellID) {
+	console.log(cellID);
+	
+}
+
 $(document).ready(function() {
 	render(gridObj);
+	$('#board td').on('click', function () {
+		placeXO($(this).attr('id'));
+	});
 })
