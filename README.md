@@ -13,6 +13,8 @@ My projects for the Code Sydney [JavaScript and JQuery study group] (http://code
 * [Week 2: Restaurant] (https://github.com/drewylui/code-sydney/tree/master/restaurant): For details on this project, see [Project: Manipulating the DOM with jQuery] (http://www.theodinproject.com/javascript-and-jquery/manipulating-the-dom-with-jquery)
 * [Week 3: Snake Game] (https://github.com/drewylui/code-sydney/tree/master/snake): For details on this project, see [Project: jQuery and the DOM] (http://www.theodinproject.com/javascript-and-jquery/jquery-and-the-dom)
 * [Week 4: Image Carousel] (https://github.com/drewylui/image-carousel): For details on this project, see [Project: Creating an Image Carousel/Slider in Javascript] (https://github.com/drewylui/code-sydney/tree/master/image-carousel)
+* _Note, no week 5 project due to bank holiday_
+* [Week 6: Tic Tac Toe game] (https://github.com/drewylui/code-sydney/tree/master/tictactoe): For details on this project, see [Project: Tic Tac Toe in Javascript] (http://www.theodinproject.com/javascript-and-jquery/tic-tac-toe)
 
 ## Notes ##
 
