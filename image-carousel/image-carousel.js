@@ -10,6 +10,13 @@ Stage 7: Read all image files from directory, build a set of divs referencing th
 
 */
 
+/* 
+Comments from code review by JS dev:
+1. Avoid 'divitis', that is, the overuse of divs. In this case, you might have wanted to use other html elements, like a table.
+2. Instead of using an object for images, use an array. Then you can more easily get the length of the array.
+3. Move the <script> tags in html file to the bottom of the body. This will let the static page elements render first.
+*/
+
 var path = 'images/';
 
 var imageSet = {
