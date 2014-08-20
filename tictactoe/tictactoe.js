@@ -47,6 +47,8 @@ function placeXO (cellID) {
 			gridRow[cellIDarr[1]] = XOchar;
 			render(gridObj);
 
+			checkDiagonal(cellIDarr[0],cellIDarr[1]);
+
 			// Check if that is the winning move
 			if (checkWinner(cellIDarr[0],cellIDarr[1])===true) {
 				if (XOchar === 'X') {
@@ -86,6 +88,9 @@ function checkWinner (rowNum, colNum) {
 	else if (checkColumn(colNum) === true) {
 		return true;
 	}
+	else if (checkDiagonal() === true) {
+		return true;
+	}
 	else {
 		return false;
 	}
@@ -119,6 +124,30 @@ function checkColumn (colNum) {
 	else {
 		return false;
 	}	
+}
+
+// Checks to see if there are three matching characters in the diagonals
+function checkDiagonal () {
+
+	if ((gridObj[0][0] === gridObj[1][1]) && (gridObj[0][0] === gridObj[2][2])) {
+		if (gridObj[1][1] != "") {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else if ((gridObj[0][2] === gridObj[1][1]) && (gridObj[0][2] === gridObj[2][0])) {
+		if (gridObj[1][1] != "") {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		return false;
+	}
 }
 
 
