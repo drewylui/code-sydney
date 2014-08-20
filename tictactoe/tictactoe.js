@@ -15,13 +15,14 @@ var gridObj = {
 	2 : ["","",""]
 }
 
+var XOchar = "X";
+
 function render (grid) {
 	var count = 0;
 	for (var row in gridObj) {
 		rowArray = gridObj[row];
 		for (i=0; i<rowArray.length; i++) {
 			divId = '#' + count + i;	
-			console.log(divId+'|'+rowArray[i]);
 			$(divId).text(rowArray[i]);
 		}
 		count++;
@@ -32,7 +33,32 @@ function render (grid) {
 
 function placeXO (cellID) {
 	console.log(cellID);
-	
+	cellIDarr = cellID.split("");
+	gridRow = gridObj[cellIDarr[0]];
+
+	// check that there isn't already a character at the location
+	if (gridRow[cellIDarr[1]] === "") {
+		gridRow[cellIDarr[1]] = XOchar;
+		render(gridObj);
+
+		if (XOchar === 'X') {
+			XOchar = 'O';
+			$('#header').text("Player O's turn.");
+		}
+		else { // XOchar === 'O'
+			XOchar = 'X';
+			$('#header').text("Player X's turn.");
+		}
+	}
+	else { // there is an X or an O at the location		
+		if (XOchar === 'X') {
+			$('#header').text("There is a character already there. Player X's turn.");
+		}
+		else { // XOchar === 'O'
+			$('#header').text("There is a character already there. Player O's turn.");
+		}
+	}
+
 }
 
 $(document).ready(function() {
