@@ -17,49 +17,110 @@ var gridObj = {
 
 var XOchar = "X";
 
+var gameOver = false;
+
+// This function renders the content of the cells in the grid based 
+// on the grid object passed in
 function render (grid) {
 	var count = 0;
 	for (var row in gridObj) {
-		rowArray = gridObj[row];
+		var rowArray = gridObj[row];
 		for (i=0; i<rowArray.length; i++) {
 			divId = '#' + count + i;	
 			$(divId).text(rowArray[i]);
 		}
 		count++;
 	}
-
-
 }
 
+
+// This function is called when a player clicks a cell in the grid.
+// It checks if there is an existing character. If not, it adds the character to the grid object
+// renders the grid and changes the header message.
 function placeXO (cellID) {
-	console.log(cellID);
-	cellIDarr = cellID.split("");
-	gridRow = gridObj[cellIDarr[0]];
+	var cellIDarr = cellID.split("");
+	var gridRow = gridObj[cellIDarr[0]];
 
-	// check that there isn't already a character at the location
-	if (gridRow[cellIDarr[1]] === "") {
-		gridRow[cellIDarr[1]] = XOchar;
-		render(gridObj);
+	if (gameOver === false) {
+		// check that there isn't already a character at the location
+		if (gridRow[cellIDarr[1]] === "") {
+			gridRow[cellIDarr[1]] = XOchar;
+			render(gridObj);
 
-		if (XOchar === 'X') {
-			XOchar = 'O';
-			$('#header').text("Player O's turn.");
+			// Check if that is the winning move
+			if (checkWinner(cellIDarr[0],cellIDarr[1])===true) {
+				if (XOchar === 'X') {
+					$('#header').text("Player X is the winner!");
+				}
+				else { // XOchar === 'O'
+					$('#header').text("Player O is the winner!");
+				}	
+				gameOver = true;
+			}
+			else {
+				if (XOchar === 'X') {
+					XOchar = 'O';
+					$('#header').text("Player O's turn.");
+				}
+				else { // XOchar === 'O'
+					XOchar = 'X';
+					$('#header').text("Player X's turn.");
+				}
+			}
 		}
-		else { // XOchar === 'O'
-			XOchar = 'X';
-			$('#header').text("Player X's turn.");
+		else { // there is an X or an O at the location		
+			if (XOchar === 'X') {
+				$('#header').text("There is a character already there. Player X's turn.");
+			}
+			else { // XOchar === 'O'
+				$('#header').text("There is a character already there. Player O's turn.");
+			}
 		}
 	}
-	else { // there is an X or an O at the location		
-		if (XOchar === 'X') {
-			$('#header').text("There is a character already there. Player X's turn.");
-		}
-		else { // XOchar === 'O'
-			$('#header').text("There is a character already there. Player O's turn.");
-		}
-	}
-
 }
+
+function checkWinner (rowNum, colNum) {
+	if (checkRow(rowNum) === true) {
+		return true;
+	}
+	else if (checkColumn(colNum) === true) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
+// Checks to see if there are three matching characters in a specified row 
+function checkRow (rowNum) {
+	var gridRow = gridObj[rowNum];
+	if ((gridRow[0] === gridRow[1]) && (gridRow[0] === gridRow[2])) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+// Checks to see if there are three matching characters in a specified column
+function checkColumn (colNum) {
+	var count = 0;
+	var colArray = [];
+	for (var row in gridObj) {
+		var rowArray = gridObj[row];
+		colArray[count] = rowArray[colNum];
+		count++;
+	}
+
+	if ((colArray[0] === colArray[1]) && (colArray[0] === colArray[2])) {
+		return true;
+	}
+	else {
+		return false;
+	}	
+}
+
 
 $(document).ready(function() {
 	render(gridObj);
