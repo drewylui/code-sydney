@@ -15,6 +15,7 @@ My projects for the Code Sydney [JavaScript and JQuery study group] (http://code
 * [Week 4: Image Carousel] (https://github.com/drewylui/image-carousel): For details on this project, see [Project: Creating an Image Carousel/Slider in Javascript] (https://github.com/drewylui/code-sydney/tree/master/image-carousel)
 * _Note, no week 5 project due to bank holiday_
 * [Week 6: Tic Tac Toe game] (https://github.com/drewylui/code-sydney/tree/master/tictactoe): For details on this project, see [Project: Tic Tac Toe in Javascript] (http://www.theodinproject.com/javascript-and-jquery/tic-tac-toe)
+* [Week 7 and 8: Minesweeper game] (https://github.com/drewylui/code-sydney/tree/master/minesweeper): For details on this project, see [Project: Minesweeper in Javscript] (http://www.theodinproject.com/javascript-and-jquery/minesweeper)
 
 ## Notes ##
 
