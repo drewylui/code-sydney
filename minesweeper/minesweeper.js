@@ -18,6 +18,14 @@ function Cell(cellDiv, xcoord, ycoord) {
 	
 	this.x = xcoord;
 	this.y = ycoord;
+	this.div = cellDiv;
+
+	var cell = this;
+
+	this.div.on('click',function(event){
+		console.log(String(cell.x) + ',' + String(cell.y));
+	});
+
 	return this;
 }
 
@@ -46,6 +54,8 @@ function buildGrid (rows, cols) {
 		gridArray[y] = rowArray;
 	}
 }
+
+
 
 $(document).ready(function() {
 	buildGrid(numRows,numCols);

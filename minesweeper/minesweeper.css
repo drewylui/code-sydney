@@ -1,0 +1,27 @@
+.cell {
+	border: 1px solid grey;
+	height: 30px;
+	width: 30px;
+	float: left;
+}
+.row {
+	clear: left;
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;	
+}
+#grid {
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#header {
+	width: 300px;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+#header h2 {
+	font-family: Verdana;
+	font-size: 18px;
+}
