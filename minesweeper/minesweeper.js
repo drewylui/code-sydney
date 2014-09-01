@@ -15,6 +15,12 @@ var numCols = 9;
 var numBombs = 5;
 var gridArray;
 
+/*
+	Defines attributes for and binds events to a cell in the grid
+	TODO: move functions into cell prototype
+	TODO: Investigate the JQuery data method to bind data to a DOM element
+	TODO: Investigate filter and map
+*/
 function Cell(cellDiv, xcoord, ycoord) {
 	
 	this.x = xcoord;
@@ -26,27 +32,19 @@ function Cell(cellDiv, xcoord, ycoord) {
 
 	var cell = this; // set the scope to the cell, not the document
 
-	this.div.on('contextmenu', function() {
-		return false;
+	// prevent the right-click from showing the context menu
+	this.div.on('contextmenu', function(event) {
+		event.preventDefault();
 	})
 
 	this.div.on('mouseup',function(event){
 		console.log(String(cell.x) + ',' + String(cell.y));
 		if (event.button === 0) {
-			if (cell.flag === false) {
-				if (cell.bomb === true) {
-					cell.div.css('background-color','red');
-					alert('bomb! you lose!');
-				}
-				else {
-					cell.div.css('background-color','white');
-					cell.show = true;
-				}
-			}
-			// else do nothing
+			reveal(cell);
 		}
 		else if (event.button === 2) {
-			if (cell.show === false) {
+			// if the cell hasn't already been revealed, flag/unflag it
+			if (cell.show === false) { 
 				if (cell.flag === true) {				
 					cell.flag = false;
 					cell.div.css('background-color','#DEDEDE');
@@ -67,10 +65,14 @@ function Cell(cellDiv, xcoord, ycoord) {
 
 }
 
+/*
+	Place bombs at random locations by setting the bomb attribute of the relevant cells
+	TODO: Need to make sure that you don't place a bomb in the same cell more than once.
+*/
 function placeBombs (rows, cols, numBombs) {
 
-	for (i=0; i<numBombs; i++) {
-		
+	for (i=0; i<numBombs; i++) {		
+
 		var bombCoordX = Math.floor(Math.random()*cols);
 		var bombCoordY = Math.floor(Math.random()*rows);
 
@@ -81,6 +83,9 @@ function placeBombs (rows, cols, numBombs) {
 	}
 }
 
+/*
+	Build the divs and arrays of Cells to make the grid
+*/
 function buildGrid (rows, cols) {
 	
 	gridArray = new Array(rows);
@@ -100,7 +105,6 @@ function buildGrid (rows, cols) {
 			// Add the cell object to the row array
 			var cell = new Cell (cellDiv,x,y);			
 			rowArray[x] = cell;
-
 		}		
 		// Add the row array to the grid array
 		gridArray[y] = rowArray;
@@ -108,12 +112,66 @@ function buildGrid (rows, cols) {
 
 }
 
+/*
+	Get the array of all neighbours for x,y coordinates.
+*/
+function getNeighbours (x,y) {
 
+	var neighbours = [ 
+	    { x: x + 1, y: y },
+	    { x: x + 1, y: y - 1 },
+	    { x: x + 1, y: y + 1 },
+	    { x: x, y: y + 1 },
+	    { x: x, y: y - 1 },
+	    { x: x - 1, y: y },
+	    { x: x - 1, y: y + 1 },
+	    { x: x - 1, y: y - 1 }
+	  ];
 
+	  var refinedNeighbours = [];
+
+	// refine the array to only include neighbours inside the board
+	for (i=0; i < neighbours.length; i++) {		
+		if ((neighbours[i].x >= 0) && (neighbours[i].x < numRows) && (neighbours[i].y >= 0) && (neighbours[i].y < numRows)) {
+			refinedNeighbours.push(neighbours[i]);
+		}
+	}
+
+	return refinedNeighbours;
+}
+
+/* 
+	Reveals cell and neighbours
+*/
+function reveal (cellObj) {
+	// if the cell hasn't already been flagged, reveal it
+	if (cellObj.flag === false) {
+		if (cellObj.bomb === false) {
+			cellObj.div.css('background-color','white');
+			cellObj.show = true;
+
+			var neighbours = getNeighbours(cellObj.x,cellObj.y);
+			for (index in neighbours) {
+				console.log('coords: ' + neighbours[index].x + ',' + neighbours[index].y);
+				// do stuff to the cells at each coords
+			}
+
+		}
+		else {
+			cellObj.div.css('background-color','red');
+			alert('bomb! you lose!');
+		}
+	}
+	// else do nothing
+}
+
+/* 
+	On page load, build the grid and place bombs
+*/
 $(document).ready(function() {
 
 	buildGrid(numRows,numCols);
-	console.log(gridArray);
 	placeBombs(numRows,numCols,numBombs);	
+
 })
 
