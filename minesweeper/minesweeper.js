@@ -12,21 +12,73 @@ Build a grid of cells
 */
 var numRows = 9;
 var numCols = 9;
+var numBombs = 5;
 var gridArray;
 
 function Cell(cellDiv, xcoord, ycoord) {
 	
 	this.x = xcoord;
 	this.y = ycoord;
+	this.bomb = false;
+	this.flag = false;
+	this.show = false;
 	this.div = cellDiv;
 
-	var cell = this;
+	var cell = this; // set the scope to the cell, not the document
 
-	this.div.on('click',function(event){
+	this.div.on('contextmenu', function() {
+		return false;
+	})
+
+	this.div.on('mouseup',function(event){
 		console.log(String(cell.x) + ',' + String(cell.y));
+		if (event.button === 0) {
+			if (cell.flag === false) {
+				if (cell.bomb === true) {
+					cell.div.css('background-color','red');
+					alert('bomb! you lose!');
+				}
+				else {
+					cell.div.css('background-color','white');
+					cell.show = true;
+				}
+			}
+			// else do nothing
+		}
+		else if (event.button === 2) {
+			if (cell.show === false) {
+				if (cell.flag === true) {				
+					cell.flag = false;
+					cell.div.css('background-color','#DEDEDE');
+				} 
+				else {
+					cell.flag = true;
+					cell.div.css('background-color','blue');
+				}
+			}
+			// else do nothing
+		}
+		else {
+			console.log ('Error: invalid button code');
+		}
 	});
 
 	return this;
+
+}
+
+function placeBombs (rows, cols, numBombs) {
+
+	for (i=0; i<numBombs; i++) {
+		
+		var bombCoordX = Math.floor(Math.random()*cols);
+		var bombCoordY = Math.floor(Math.random()*rows);
+
+		gridArray[bombCoordY][bombCoordX].bomb = true;
+		// debug
+		console.log('Bomb at:' + gridArray[bombCoordY][bombCoordX].x + ',' + gridArray[bombCoordY][bombCoordX].y);
+
+	}
 }
 
 function buildGrid (rows, cols) {
@@ -53,12 +105,15 @@ function buildGrid (rows, cols) {
 		// Add the row array to the grid array
 		gridArray[y] = rowArray;
 	}
+
 }
 
 
 
 $(document).ready(function() {
+
 	buildGrid(numRows,numCols);
 	console.log(gridArray);
+	placeBombs(numRows,numCols,numBombs);	
 })
 
