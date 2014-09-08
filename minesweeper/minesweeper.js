@@ -12,7 +12,7 @@ Build a grid of cells
 */
 var numRows = 9;
 var numCols = 9;
-var numBombs = 5;
+var numBombs = 10;
 var gridArray;
 
 /*
@@ -29,8 +29,9 @@ function Cell(cellDiv, xcoord, ycoord) {
 	this.flag = false;
 	this.show = false;
 	this.div = cellDiv;
+	this.bombCount = 0;
 
-	var cell = this; // set the scope to the cell, not the document
+	var cell = this; // maintain reference to current object
 
 	// prevent the right-click from showing the context menu
 	this.div.on('contextmenu', function(event) {
@@ -38,7 +39,6 @@ function Cell(cellDiv, xcoord, ycoord) {
 	})
 
 	this.div.on('mouseup',function(event){
-		console.log(String(cell.x) + ',' + String(cell.y));
 		if (event.button === 0) {
 			reveal(cell);
 		}
@@ -66,31 +66,14 @@ function Cell(cellDiv, xcoord, ycoord) {
 }
 
 /*
-	Place bombs at random locations by setting the bomb attribute of the relevant cells
-	TODO: Need to make sure that you don't place a bomb in the same cell more than once.
-*/
-function placeBombs (rows, cols, numBombs) {
-
-	for (i=0; i<numBombs; i++) {		
-
-		var bombCoordX = Math.floor(Math.random()*cols);
-		var bombCoordY = Math.floor(Math.random()*rows);
-
-		gridArray[bombCoordY][bombCoordX].bomb = true;
-		// debug
-		console.log('Bomb at:' + gridArray[bombCoordY][bombCoordX].x + ',' + gridArray[bombCoordY][bombCoordX].y);
-
-	}
-}
-
-/*
 	Build the divs and arrays of Cells to make the grid
+	Reference the grid like this: gridArray[y coord][x coord]
 */
 function buildGrid (rows, cols) {
 	
 	gridArray = new Array(rows);
 
-	for (y=0; y<rows; y++) {
+	for (var y=0; y<rows; y++) {
 
 		// Append row divs to grid div
 		var rowDiv = $('<div>').addClass('row');
@@ -98,7 +81,7 @@ function buildGrid (rows, cols) {
 		// Build an empty array for the row
 		var rowArray = new Array(cols);
 
-		for (x=0; x<cols; x++) {
+		for (var x=0; x<cols; x++) {
 			// Append cell divs to the row div
 			var cellDiv = $('<div>').addClass('cell');
 			$(rowDiv).append(cellDiv);
@@ -109,7 +92,46 @@ function buildGrid (rows, cols) {
 		// Add the row array to the grid array
 		gridArray[y] = rowArray;
 	}
+}
 
+/* 
+	Gets the cell at the specified coordinates in the grid
+*/
+function getCell (x,y) {
+	return gridArray[y][x];
+}
+
+/*
+	Place bombs at random locations by setting the bomb attribute of the relevant cells
+*/
+function placeBombs (rows, cols, numBombs) {
+
+	for (var i=0; i<numBombs; i++) {					
+		var bombCoordX = Math.floor(Math.random()*cols);
+		var bombCoordY = Math.floor(Math.random()*rows);
+
+		var cell = getCell(bombCoordX,bombCoordY);
+
+		// Place bomb, unless there is already a bomb at the cell
+		if (cell.bomb != true) {
+			cell.bomb = true;
+			console.log('Bomb at:' + cell.x + ',' + cell.y);
+			updateNeighbourBombCounts(cell.x,cell.y);
+		}
+		else {
+			// don't increment the bomb count if a bomb was not placed
+			i--;
+		}
+	}
+}
+
+// increments the bomb count of all neighbouring cells
+function updateNeighbourBombCounts(x,y) {
+	var neighbours = getNeighbours(x,y);
+	for (var index in neighbours) {	
+		var neighbourCell = getCell(neighbours[index].x,neighbours[index].y);
+		neighbourCell.bombCount++;
+	}
 }
 
 /*
@@ -131,7 +153,7 @@ function getNeighbours (x,y) {
 	  var refinedNeighbours = [];
 
 	// refine the array to only include neighbours inside the board
-	for (i=0; i < neighbours.length; i++) {		
+	for (var i=0; i < neighbours.length; i++) {		
 		if ((neighbours[i].x >= 0) && (neighbours[i].x < numRows) && (neighbours[i].y >= 0) && (neighbours[i].y < numRows)) {
 			refinedNeighbours.push(neighbours[i]);
 		}
@@ -144,25 +166,70 @@ function getNeighbours (x,y) {
 	Reveals cell and neighbours
 */
 function reveal (cellObj) {
-	// if the cell hasn't already been flagged, reveal it
-	if (cellObj.flag === false) {
+	// if the cell hasn't already been revealed or flagged, reveal it
+	if (cellObj.flag === false && cellObj.show != true) {
+		
 		if (cellObj.bomb === false) {
+			// change the cell colour and show the number of neighbouring bombs in coloured text
 			cellObj.div.css('background-color','white');
-			cellObj.show = true;
-
-			var neighbours = getNeighbours(cellObj.x,cellObj.y);
-			for (index in neighbours) {
-				console.log('coords: ' + neighbours[index].x + ',' + neighbours[index].y);
-				// do stuff to the cells at each coords
+			cellObj.show = true;			
+			switch (cellObj.bombCount) {
+				case 0:
+					break;
+				case 1:
+					cellObj.div.text(cellObj.bombCount);
+					cellObj.div.css('color','blue');
+					break;
+				case 2:
+					cellObj.div.text(cellObj.bombCount);
+					cellObj.div.css('color','green');
+					break;
+				case 3:
+					cellObj.div.text(cellObj.bombCount);
+					cellObj.div.css('color','orange');
+					break;
+				case 4:
+					cellObj.div.text(cellObj.bombCount);
+					cellObj.div.css('color','red');
+					break;
+				default: 
+					cellObj.div.text(cellObj.bombCount);
+					cellObj.div.css('color','black');
 			}
 
+			// reveal neighbouring cells recursively if empty
+			var neighbours = getNeighbours(cellObj.x,cellObj.y);
+			for (var index in neighbours) {	
+				var neighbourCell = getCell(neighbours[index].x,neighbours[index].y);
+				if (neighbourCell.bombCount===0 && neighbourCell.bomb === false) {
+					reveal (neighbourCell);
+				}
+			}			
 		}
+
 		else {
+			// if there is a bomb, end the game
+			cellObj.div.text('B');
 			cellObj.div.css('background-color','red');
-			alert('bomb! you lose!');
+			alert('Bomb! You lose!');
+			$('.cell').unbind();
 		}
 	}
 	// else do nothing
+}
+
+function countBombs (neighbours) {
+
+	var bombCount = 0;
+	var cell = getCell([neighbours[index].x],[neighbours[index].y]);
+
+	for (var index in neighbours) {
+		if (cell.bomb === true) {
+			bombCount++;
+		}				
+	}
+
+	return bombCount;
 }
 
 /* 
