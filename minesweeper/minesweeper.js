@@ -50,7 +50,7 @@ function Cell(cellDiv, xcoord, ycoord) {
 					cell.div.css('background-color','blue');
 					flagCount++;
 					if (checkVictory()) {
-						$('#instructions').text('Congratulations! You win!');
+						$('#instructions').text('You win! Press Escape to play again.');
 						$('#instructions').css('color','blue');
 						$('.cell').unbind();
 						gameOverFlag = true;
@@ -124,6 +124,7 @@ function placeBombs (rows, cols, numBombs) {
 		// Place bomb, unless there is already a bomb at the cell
 		if (cell.bomb != true) {
 			cell.bomb = true;			
+			// cell.div.css('background-color','yellow'); // activate cheat mode!!
 			updateNeighbourBombCounts(cell.x,cell.y);
 			bombsArray.push(cell);
 		}
@@ -224,7 +225,7 @@ function reveal (cellObj) {
 			// if there is a bomb, end the game
 			cellObj.div.text('B');
 			cellObj.div.css('background-color','red');
-			$('#instructions').text('BOMB! You lose!');
+			$('#instructions').text('You lose! Press Escape to play again.');
 			$('#instructions').css('color','red');
 			$('.cell').unbind();
 			gameOverFlag = true;
@@ -257,6 +258,22 @@ $(document).ready(function() {
 
 	buildGrid(numRows,numCols);
 	placeBombs(numRows,numCols,numBombs);	
+
+	// Reset game if escape is pressed
+	$("html").on('keydown',function(event) {
+		if (event.keyCode===27) {
+			if (gameOverFlag === true) { 
+				moveCount = 0;
+				flagCount = 0;
+				$("#grid").empty();				
+				$('#instructions').html('Left-click to reveal squares. <br/> Right-click to flag a bomb.');	
+				$('#instructions').css('color','grey');					
+				buildGrid(numRows,numCols);
+				placeBombs(numRows,numCols,numBombs);	
+				gameOverFlag = false;				
+			}	
+		}			
+	})	
 
 })
 
