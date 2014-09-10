@@ -24,6 +24,15 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+#instructions {
+	width: 300px;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	font-family: Courier New;
+	font-size: 14px;
+	padding-bottom: 10px;
+}
 #header h2 {
 	font-family: Verdana;
 	font-size: 18px;

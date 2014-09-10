@@ -1,25 +1,14 @@
-/*
-Create a js object to represent a cell
-Cell object needs:
-	Array to represent neighbours
-	Function to show cell and neighbours
-	Function to mark
-	Function to show bomb
-Build a grid of cells
-	Build an array of rows
-	In each column of each row, place a cell
-	For each cell, define its neighbours
-*/
 var numRows = 9;
 var numCols = 9;
 var numBombs = 10;
 var gridArray;
+var bombsArray = [];
+var flagCount = 0;
+var moveCount = 0;
+var gameOverFlag = false;
 
 /*
 	Defines attributes for and binds events to a cell in the grid
-	TODO: move functions into cell prototype
-	TODO: Investigate the JQuery data method to bind data to a DOM element
-	TODO: Investigate filter and map
 */
 function Cell(cellDiv, xcoord, ycoord) {
 	
@@ -38,13 +27,20 @@ function Cell(cellDiv, xcoord, ycoord) {
 		event.preventDefault();
 	})
 
-	this.div.on('mouseup',function(event){
+	this.div.on('mouseup',function(event){		
+
+		// increase the move count if the cell is not revealed or flagged
+		if ((cell.show === false) && (cell.flag === false)) {
+			moveCount++;
+		}
+
+		// reveal or flag cell based on left-click or right-click respectively
 		if (event.button === 0) {
 			reveal(cell);
 		}
 		else if (event.button === 2) {
 			// if the cell hasn't already been revealed, flag/unflag it
-			if (cell.show === false) { 
+			if (cell.show === false) { 					
 				if (cell.flag === true) {				
 					cell.flag = false;
 					cell.div.css('background-color','#DEDEDE');
@@ -52,6 +48,13 @@ function Cell(cellDiv, xcoord, ycoord) {
 				else {
 					cell.flag = true;
 					cell.div.css('background-color','blue');
+					flagCount++;
+					if (checkVictory()) {
+						$('#instructions').text('Congratulations! You win!');
+						$('#instructions').css('color','blue');
+						$('.cell').unbind();
+						gameOverFlag = true;
+					}
 				}
 			}
 			// else do nothing
@@ -59,6 +62,12 @@ function Cell(cellDiv, xcoord, ycoord) {
 		else {
 			console.log ('Error: invalid button code');
 		}
+
+		// update move count and the score shown to player, if the game has not ended
+		if (!gameOverFlag) {
+			$('#instructions').html('Total bombs: ' + numBombs + '<br/> Flags placed: ' + flagCount + ' Moves made: ' + moveCount);			
+		}
+
 	});
 
 	return this;
@@ -114,9 +123,9 @@ function placeBombs (rows, cols, numBombs) {
 
 		// Place bomb, unless there is already a bomb at the cell
 		if (cell.bomb != true) {
-			cell.bomb = true;
-			console.log('Bomb at:' + cell.x + ',' + cell.y);
+			cell.bomb = true;			
 			updateNeighbourBombCounts(cell.x,cell.y);
+			bombsArray.push(cell);
 		}
 		else {
 			// don't increment the bomb count if a bomb was not placed
@@ -200,9 +209,13 @@ function reveal (cellObj) {
 			// reveal neighbouring cells recursively if empty
 			var neighbours = getNeighbours(cellObj.x,cellObj.y);
 			for (var index in neighbours) {	
-				var neighbourCell = getCell(neighbours[index].x,neighbours[index].y);
-				if (neighbourCell.bombCount===0 && neighbourCell.bomb === false) {
+				var neighbourCell = getCell(neighbours[index].x,neighbours[index].y);				
+
+				if (neighbourCell.bomb === false) {
 					reveal (neighbourCell);
+				}
+				else {
+					break;
 				}
 			}			
 		}
@@ -211,25 +224,30 @@ function reveal (cellObj) {
 			// if there is a bomb, end the game
 			cellObj.div.text('B');
 			cellObj.div.css('background-color','red');
-			alert('Bomb! You lose!');
+			$('#instructions').text('BOMB! You lose!');
+			$('#instructions').css('color','red');
 			$('.cell').unbind();
+			gameOverFlag = true;
 		}
 	}
 	// else do nothing
 }
 
-function countBombs (neighbours) {
+/*
+	If all bomb cells are flagged, return true. Otherwise, return false.	
+*/
+function checkVictory () {
 
-	var bombCount = 0;
-	var cell = getCell([neighbours[index].x],[neighbours[index].y]);
+	var victoryFlag = true;
 
-	for (var index in neighbours) {
-		if (cell.bomb === true) {
-			bombCount++;
-		}				
+	for (var i=0; i<bombsArray.length; i++) {
+		if (bombsArray[i].flag === false) {
+			victoryFlag = false;
+		}
 	}
 
-	return bombCount;
+	return victoryFlag;
+
 }
 
 /* 
