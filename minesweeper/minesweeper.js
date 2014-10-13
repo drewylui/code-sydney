@@ -124,7 +124,7 @@ function placeBombs (rows, cols, numBombs) {
 		// Place bomb, unless there is already a bomb at the cell
 		if (cell.bomb != true) {
 			cell.bomb = true;			
-			// cell.div.css('background-color','yellow'); // activate cheat mode!!
+			//cell.div.css('background-color','yellow'); // activate cheat mode!!
 			updateNeighbourBombCounts(cell.x,cell.y);
 			bombsArray.push(cell);
 		}
@@ -246,7 +246,7 @@ function checkVictory () {
 			victoryFlag = false;
 		}
 	}
-
+	console.log(victoryFlag);
 	return victoryFlag;
 
 }

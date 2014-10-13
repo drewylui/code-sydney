@@ -1,0 +1,56 @@
+#main {
+	border-radius: 5px;
+	border: 4px #EFEFEF solid;
+	background-color: #F6F6F6;
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 10px;
+	padding-bottom: 10px;	
+	padding-left: 25px;	
+	padding-right: 25px;	
+}
+#header {
+	font-family: Helvetica;
+	font-size: 25px;
+	padding-top: 5px;
+}
+#signup-form {
+	font-family: Arial;
+	font-size: 16px;
+	width: 500px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+#signup-form form ol li {
+	padding-bottom: 10px;
+	list-style-type: none;
+}
+.general-input-label {
+	display: block;
+	padding-bottom: 5px;
+}
+.general-input {
+	border-radius: 3px;
+	width: 300px;
+	height: 20px;
+	border: 1px #ABABAB solid;
+	font-size: 14px;
+}
+#submit-btn-div {
+	width: 500px;
+	padding-left: 40px;
+}
+#submit-btn {
+	width: 100px;
+	height: 30px;
+	font-family: Verdana;
+	font-size: 14px;
+	border-radius: 5px;
+	background-color: #999999;
+	color: white;
+	border-top: 2px #777777 solid;
+	border-left: 2px #777777 solid;
+	border-right: 2px #777777 solid;
+	border-bottom: 2px #333333 solid;
+}

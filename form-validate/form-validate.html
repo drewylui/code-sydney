@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<link type='text/css' rel='stylesheet' href='form-validate.css'>
+</head>
+
+<body>
+	<div id="main">	
+		<div id="header">Enter your details</div>
+		<div id="signup-form">
+			<form>
+				<ol>
+					<li class="email">
+						<label class="general-input-label" for="form-email">Your email</label>
+						<input class="general-input" id="form-email" type="text">
+					</li>
+					<li class="email">
+						<label class="general-input-label" for="form-email-confirm">Confirm email</label>
+						<input class="general-input" id="form-email-confirm" type="text"></input>
+					</li>
+					<li>
+						<label class="general-input-label" for="form-country">Country</label>
+						<select id="form-country">
+							<optgroup label="Australasia:">
+								<option value="AU">Australia</option>
+								<option value="NZ">New Zealand</option>
+							</optgroup>
+							<optgroup label="Other regions:">
+								<option value="AF">Afghanistan</option>
+								<option value="AL">Albania</option>
+								<option value="DZ">Algeria</option>
+							</optgroup>
+						</select>
+					</li>
+					<li id="zipcode">
+						<label class="general-input-label" for="form-postcode">Post code</label>
+						<input class="general-input" id="form-postcode" type="text"></input>
+					</li>
+					<li class="password">
+						<label class="general-input-label" for="form-password">Password</label>
+						<input class="general-input" id="form-password" type="text"></input>
+					</li>
+					<li class="password">
+						<label class="general-input-label" for="form-password-confirm">Confirm password</label>
+						<input class="general-input" id="form-password-confirm" type="text"></input>
+					</li>
+					<li>
+						<input id="form-terms" name="terms" type="checkbox" value="">
+						<label id="terms-label" for="form-terms">I agree to the Terms and Conditions.</label>
+					</li>
+				</ol>
+				<div id="submit-btn-div">			
+					<button type="submit" id="submit-btn">Sign up</button>
+				</div>				
+			</form>
+		</div>	
+	</div>
+</body>
+
+</html>
