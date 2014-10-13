@@ -16,6 +16,8 @@ My projects for the Code Sydney [JavaScript and JQuery study group] (http://code
 * _Note, no week 5 project due to bank holiday_
 * [Week 6: Tic Tac Toe game] (https://github.com/drewylui/code-sydney/tree/master/tictactoe): For details on this project, see [Project: Tic Tac Toe in Javascript] (http://www.theodinproject.com/javascript-and-jquery/tic-tac-toe)
 * [Week 7 and 8: Minesweeper game] (https://github.com/drewylui/code-sydney/tree/master/minesweeper): For details on this project, see [Project: Minesweeper in Javscript] (http://www.theodinproject.com/javascript-and-jquery/minesweeper)
+* [Week 12: Validating a Form with JQuery] (https://github.com/drewylui/code-sydney/tree/master/form-validate): For details on this project, see [Project: Validating a Form with JQuery] (http://www.theodinproject.com/javascript-and-jquery/validating-a-form-with-jquery)
+
 
 ## Notes ##
 
