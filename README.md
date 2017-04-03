@@ -3,7 +3,7 @@ code-sydney
 
 ## Overview ##
 
-My projects for the Code Sydney [JavaScript and JQuery study group] (http://codesydney.com/)
+My projects for the Code Sydney [JavaScript and JQuery study group](http://codesydney.com/)
 
 * [Schedule](http://codesydney.com/schedule/)
 * [Group code samples](http://codesydney.com/code/)
